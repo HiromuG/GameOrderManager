@@ -42,7 +42,7 @@ app.MapStaticAssets();
 // id = 5
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Orders}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 // 啟動網站並開始接收 Request（請求）。
