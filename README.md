@@ -5,6 +5,20 @@ ASP.NET Core MVC と SQL Server を使用して作成した、ゲーム商品の
 CRUD 操作を中心に、検索・絞り込み・並び替え・ステータス管理など、
 業務システムでよく使用される基本機能を実装しました。
 
+## 画面イメージ
+
+### 受注一覧
+
+![受注一覧](screenshots/order-list.png)
+
+### 新規受注
+
+![新規受注](screenshots/create-order.png)
+
+### 受注詳細
+
+![受注詳細](screenshots/order-details.png)
+
 ## 主な機能
 
 - 受注一覧表示
