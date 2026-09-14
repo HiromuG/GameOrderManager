@@ -1,0 +1,83 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model GameOrderManager.Models.Order;
+
+@{
+    ViewData["Title"] = "受注編集";
+}
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+        <h1 class="mb-4">受注編集</h1>
+
+        <form asp-action="Edit" method="post">
+            <div class="row g-3">
+                <input type="hidden" asp-for="Id" />
+                <div class="col-md-6">
+                    <label asp-for="CustomerName" class="form-label">顧客名</label>
+                    <input asp-for="CustomerName" class="form-control" />
+                    <span asp-validation-for="CustomerName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="ProductName" class="form-label">商品名</label>
+                    <input asp-for="ProductName" class="form-control" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Quantity" class="form-label">数量</label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="UnitPrice" class="form-label">単価</label>
+                    <input asp-for="UnitPrice" class="form-control" />
+                    <span asp-validation-for="UnitPrice" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Platform" class="form-label">プラットフォーム</label>
+                    <select asp-for="Platform" class="form-select">
+                        <option value="">プラットフォームを選択</option>
+                        <option value="PS5">PS5</option>
+                        <option value="Switch2">Switch2</option>
+                        <option value="Steam">Steam</option>
+                    </select>
+                    <span asp-validation-for="Platform" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Status" class="form-label">ステータス</label>
+
+                    <select asp-for="Status" class="form-select">
+                        <option value="未處理">未処理</option>
+                        <option value="處理中">処理中</option>
+                        <option value="已完成">完了</option>
+                    </select>
+
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary">
+                更新
+            </button>
+
+            <button type="button"
+                    class="btn btn-outline-secondary"
+                    onclick="history.back()">
+                戻る
+            </button>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

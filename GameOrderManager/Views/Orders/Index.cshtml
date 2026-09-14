@@ -1,0 +1,242 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<GameOrderManager.Models.Order>
+
+@{
+    ViewData["Title"] = "受注一覧";
+}
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="mb-1">受注管理</h1>
+                <p class="text-muted mb-0">商品の受注情報・ステータス・プラットフォームを管理します。</p>
+            </div>
+        </div>
+
+    
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="text-muted small">全受注</div>
+                        <div class="fs-3 fw-bold">@ViewData["TotalOrders"]</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="text-muted small">未処理</div>
+                        <div class="fs-3 fw-bold">@ViewData["PendingOrders"]</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="text-muted small">処理中</div>
+                        <div class="fs-3 fw-bold">@ViewData["ProcessingOrders"]</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="text-muted small">完了</div>
+                        <div class="fs-3 fw-bold">@ViewData["CompletedOrders"]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <form method="get" asp-action="Index">
+                    <div class="row g-2 align-items-end">
+
+                        <div class="col-md-4">
+                            <label class="form-label">キーワード</label>
+                            <input type="text"
+                                   name="keyword"
+                                   value="@ViewData["CurrentKeyword"]"
+                                   class="form-control"
+                                   placeholder="顧客名・商品名・プラットフォームを検索" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">ステータス</label>
+                            <select name="status" class="form-select">
+                                <option value="">すべて</option>
+
+                                <option value="未處理"
+                                        selected="@(ViewData["CurrentStatus"]?.ToString() == "未處理")">
+                                    未処理
+                                </option>
+
+                                <option value="處理中"
+                                        selected="@(ViewData["CurrentStatus"]?.ToString() == "處理中")">
+                                    処理中
+                                </option>
+
+                                <option value="已完成"
+                                        selected="@(ViewData["CurrentStatus"]?.ToString() == "已完成")">
+                                    完了
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">並び順</label>
+                            <select name="sort" class="form-select">
+                                <option value="">標準</option>
+
+                                <option value="price_asc"
+                                        selected="@(ViewData["CurrentSort"]?.ToString() == "price_asc")">
+                                    価格：安い順
+                                </option>
+
+                                <option value="price_desc"
+                                        selected="@(ViewData["CurrentSort"]?.ToString() == "price_desc")">
+                                    価格：高い順
+                                </option>
+
+                                <option value="id_asc"
+                                        selected="@(ViewData["CurrentSort"]?.ToString() == "id_asc")">
+                                    受注番号：昇順
+                                </option>
+
+                                <option value="id_desc"
+                                        selected="@(ViewData["CurrentSort"]?.ToString() == "id_desc")">
+                                    受注番号：降順
+                                </option>
+
+                                <option value="quantity_asc"
+                                        selected="@(ViewData["CurrentSort"]?.ToString() == "quantity_asc")">
+                                    数量：少ない順
+                                </option>
+
+                                <option value="quantity_desc"
+                                        selected="@(ViewData["CurrentSort"]?.ToString() == "quantity_desc")">
+                                    数量：多い順
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="d-flex gap-2">
+                                <button type="submit"
+                                        class="btn btn-primary flex-fill">
+                                    搜尋
+                                </button>
+
+                                <a asp-action="Index"
+                                   class="btn btn-outline-secondary">
+                                    清除
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+
+                @if (Model.Count == 0)
+                {
+                    <div class="text-center py-5">
+                        <h5 class="text-muted">該当する受注データがありません。</h5>
+                        <p class="text-muted mb-0">
+                            検索条件または絞り込み条件を変更して、もう一度お試しください。
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>受注番号</th>
+                                    <th>顧客名</th>
+                                    <th>商品名</th>
+                                    <th>プラットフォーム</th>
+                                    <th class="text-end">数量</th>
+                                    <th class="text-end">単価</th>
+                                    <th>ステータス</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var order in Model)
+                                {
+                                    <tr>
+                                        <td>#@order.Id</td>
+                                        <td>@order.CustomerName</td>
+                                        <td>@order.ProductName</td>
+                                        <td>@order.Platform</td>
+
+                                        <td class="text-end">
+                                            @order.Quantity
+                                        </td>
+
+                                        <td class="text-end">
+                                            ¥@order.UnitPrice.ToString("N0")
+                                        </td>
+
+                                        <td>
+                                            @if (order.Status == "未處理")
+                                            {
+                                                <span class="badge bg-secondary">未処理</span>
+                                            }
+                                            else if (order.Status == "處理中")
+                                            {
+                                                <span class="badge bg-warning text-dark">処理中</span>
+                                            }
+                                            else if (order.Status == "已完成")
+                                            {
+                                                <span class="badge bg-success">完了</span>
+                                            }
+                                        </td>
+
+                                        <td class="text-nowrap">
+                                            <a asp-action="Details"
+                                               asp-route-id="@order.Id"
+                                               class="btn btn-outline-secondary btn-sm">
+                                                詳細
+                                            </a>
+
+                                            <a asp-action="Edit"
+                                               asp-route-id="@order.Id"
+                                               class="btn btn-primary btn-sm">
+                                                編集
+                                            </a>
+
+                                            <a asp-action="Delete"
+                                               asp-route-id="@order.Id"
+                                               class="btn btn-danger btn-sm">
+                                                削除
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

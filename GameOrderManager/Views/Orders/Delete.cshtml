@@ -1,0 +1,73 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model GameOrderManager.Models.Order
+
+@{
+    ViewData["Title"] = "受注削除";
+}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+
+        <div class="alert alert-danger">
+            <h4 class="alert-heading">この受注データを削除しますか？</h4>
+            <p class="mb-0">
+                削除したデータは元に戻せません。内容をご確認ください。
+            </p>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="text-muted small">受注番号</div>
+                <div class="fw-semibold">#@Model.Id</div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="text-muted small">顧客名</div>
+                <div class="fw-semibold">@Model.CustomerName</div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="text-muted small">商品名</div>
+                <div class="fw-semibold">@Model.ProductName</div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="text-muted small">プラットフォーム</div>
+                <div class="fw-semibold">@Model.Platform</div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="text-muted small">数量</div>
+                <div class="fw-semibold">@Model.Quantity</div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="text-muted small">単価</div>
+                <div class="fw-semibold">
+                    ¥@Model.UnitPrice.ToString("N0")
+                </div>
+            </div>
+        </div>
+
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-danger">
+                    削除
+                </button>
+
+                <button type="button"
+                        class="btn btn-outline-secondary"
+                        onclick="history.back()">
+                    キャンセル
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
